@@ -42,14 +42,19 @@ public class AuthenticationService {
                                 .isEnabled(true)
                                 .build();
 
-                userRepository.save(user);
-                logger.info("User registered successfully: {}", user.getEmail());
-                var jwtToken = jwtService.generateToken(user);
-                logger.info("Generated JWT token for user: {}", user.getEmail());
+                try {
+                        userRepository.save(user);
+                        logger.info("User registered successfully: {}", user.getEmail());
+                        var jwtToken = jwtService.generateToken(user);
+                        logger.info("Generated JWT token for user: {}", user.getEmail());
 
-                return AuthenticationResponse.builder()
-                                .token(jwtToken)
-                                .build();
+                        return AuthenticationResponse.builder()
+                                        .token(jwtToken)
+                                        .build();
+                } catch (Exception e) {
+                        logger.error("Error saving user during registration for email: {}", request.getEmail(), e);
+                        throw e; // Re-throw the exception to be caught by the controller
+                }
         }
 
         public AuthenticationResponse authenticate(AuthenticationRequest request) {
