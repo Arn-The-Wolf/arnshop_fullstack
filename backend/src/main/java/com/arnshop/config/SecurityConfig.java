@@ -44,9 +44,10 @@ public class SecurityConfig {
                                                 .anyRequest().authenticated())
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                                                .sessionFixation().migrateSession()
-                                                .maximumSessions(1)
-                                                .maxSessionsPreventsLogin(false))
+//                                                .sessionFixation().migrateSession()
+//                                                .maximumSessions(1)
+//                                                .maxSessionsPreventsLogin(false))
+                                )
                                 .authenticationProvider(authenticationProvider)
                                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                                 .exceptionHandling(exception -> exception
